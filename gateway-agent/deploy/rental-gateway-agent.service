@@ -1,0 +1,19 @@
+[Unit]
+Description=Rental Gateway Agent (Apache config)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/var/www/html/Laravel-Rental-Manager/gateway-agent
+EnvironmentFile=-/var/www/html/Laravel-Rental-Manager/.env
+Environment=RGA_HOST=127.0.0.1
+Environment=RGA_PORT=8750
+Environment=RGA_SKIP_APACHE_RELOAD=false
+Environment=RGA_SKIP_CONFIGTEST=false
+ExecStart=/var/www/html/Laravel-Rental-Manager/gateway-agent/run.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

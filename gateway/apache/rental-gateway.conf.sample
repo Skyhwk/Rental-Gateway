@@ -1,0 +1,11 @@
+# Salin ke Apache (contoh: /etc/apache2/conf-available/rental-gateway.conf)
+# lalu: a2enconf rental-gateway && systemctl reload apache2
+#
+# Pastikan modul: proxy proxy_http headers rewrite
+
+Listen 8080
+
+IncludeOptional /var/www/html/Laravel-Rental-Manager/storage/gateway/runtime/apps/*.conf
+
+# Atau production:
+# IncludeOptional /etc/apache2/rental-gateway/apps/*.conf

@@ -1,0 +1,4 @@
+# /etc/sudoers.d/rental-gateway-agent
+# Ganti user jika agent tidak dijalankan sebagai root.
+rental-gateway-agent ALL=(root) NOPASSWD: /usr/sbin/apache2ctl configtest
+rental-gateway-agent ALL=(root) NOPASSWD: /usr/sbin/apache2ctl graceful
