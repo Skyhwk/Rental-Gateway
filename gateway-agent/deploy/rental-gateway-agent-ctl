@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Wrapper aman untuk systemctl — hanya unit rental-gateway-agent
+set -euo pipefail
+
+UNIT="${GATEWAY_AGENT_SYSTEMD_UNIT:-rental-gateway-agent}"
+ACTION="${1:-}"
+
+case "${ACTION}" in
+    start|stop|restart|status|is-active)
+        /bin/systemctl "${ACTION}" "${UNIT}"
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status|is-active}" >&2
+        exit 1
+        ;;
+esac

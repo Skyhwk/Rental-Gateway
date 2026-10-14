@@ -1,0 +1,8 @@
+# /etc/sudoers.d/rental-gateway-agent-ctl
+# Izinkan user web (www-data) mengontrol agent via script terbatas.
+Defaults:www-data !requiretty
+www-data ALL=(root) NOPASSWD: /usr/local/sbin/rental-gateway-agent-ctl start
+www-data ALL=(root) NOPASSWD: /usr/local/sbin/rental-gateway-agent-ctl restart
+www-data ALL=(root) NOPASSWD: /usr/local/sbin/rental-gateway-agent-ctl stop
+www-data ALL=(root) NOPASSWD: /usr/local/sbin/rental-gateway-agent-ctl status
+www-data ALL=(root) NOPASSWD: /usr/local/sbin/rental-gateway-agent-ctl is-active
