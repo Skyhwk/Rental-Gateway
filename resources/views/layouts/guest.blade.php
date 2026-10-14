@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ __('Login') }} — {{ config('app.name') }}</title>
+    @include('partials.app-head-icons')
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
@@ -11,7 +12,10 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <b>Rental</b> Gateway
+        <a href="{{ url('/') }}">
+            <img src="{{ asset_versioned('img/rg-icon.png') }}" alt="{{ config('app.name') }}" class="mb-2" style="max-height: 72px; width: auto;">
+        </a>
+        <div><b>Rental</b> Gateway</div>
     </div>
     <div class="card">
         <div class="card-body login-card-body">
