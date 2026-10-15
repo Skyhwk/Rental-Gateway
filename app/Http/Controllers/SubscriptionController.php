@@ -29,11 +29,38 @@ class SubscriptionController extends Controller
             $query->where('status', $status);
         }
 
-        $subscriptions = $query->orderByDesc('id')->paginate(15)->withQueryString();
+        if ($search = trim((string) $request->get('q'))) {
+            $like = '%'.$search.'%';
+            $query->where(function ($q) use ($like) {
+                $q->whereHas('client', function ($c) use ($like) {
+                    $c->where('company_name', 'like', $like);
+                })->orWhereHas('application', function ($a) use ($like) {
+                    $a->where('name', 'like', $like);
+                })->orWhereHas('plan', function ($p) use ($like) {
+                    $p->where('name', 'like', $like);
+                });
+            });
+        }
+
+        $subscriptions = $query
+            ->orderByRaw('CASE WHEN status = ? THEN 0 WHEN status = ? THEN 1 ELSE 2 END', [
+                Subscription::STATUS_PAST_DUE,
+                Subscription::STATUS_ACTIVE,
+            ])
+            ->orderByDesc('id')
+            ->paginate(15)
+            ->withQueryString();
+
+        $recap = [
+            'active' => Subscription::where('status', Subscription::STATUS_ACTIVE)->count(),
+            'past_due' => Subscription::where('status', Subscription::STATUS_PAST_DUE)->count(),
+            'total' => Subscription::count(),
+        ];
 
         return view('billing.subscriptions.index', [
             'subscriptions' => $subscriptions,
             'statuses' => Subscription::statuses(),
+            'recap' => $recap,
         ]);
     }
 

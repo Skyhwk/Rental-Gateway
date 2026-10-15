@@ -113,6 +113,12 @@ class InvoiceService
 
         $invoice->update(['status' => $status]);
 
-        return $invoice->fresh();
+        $invoice = $invoice->fresh();
+
+        if ($invoice->subscription_id) {
+            app(SubscriptionBillingService::class)->refreshSubscriptionStatus($invoice->subscription);
+        }
+
+        return $invoice;
     }
 }

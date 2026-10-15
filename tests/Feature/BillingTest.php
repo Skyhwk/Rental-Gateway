@@ -81,7 +81,7 @@ class BillingTest extends TestCase
         Config::set('billing.auto_activate_on_payment_verified', true);
         Config::set('gateway.agent.enabled', false);
 
-        ['application' => $application, 'invoice' => $invoice] = $this->billingFixture();
+        ['application' => $application, 'invoice' => $invoice, 'subscription' => $subscription] = $this->billingFixture();
 
         $finance = User::factory()->create();
         $finance->assignRole('Finance');
@@ -101,6 +101,40 @@ class BillingTest extends TestCase
 
         $application->refresh();
         $this->assertSame(Application::ACCESS_ACTIVE, $application->access_status);
+
+        $subscription->refresh();
+        $this->assertSame(Subscription::STATUS_ACTIVE, $subscription->status);
+    }
+
+    public function test_payment_verify_clears_past_due_subscription_status(): void
+    {
+        Config::set('billing.auto_activate_on_payment_verified', true);
+        Config::set('gateway.agent.enabled', false);
+
+        ['invoice' => $invoice, 'subscription' => $subscription] = $this->billingFixture();
+
+        $subscription->update(['status' => Subscription::STATUS_PAST_DUE, 'grace_days' => 0]);
+        $invoice->update([
+            'due_date' => now()->toDateString(),
+            'status' => Invoice::STATUS_OVERDUE,
+            'amount_paid' => 0,
+        ]);
+
+        $finance = User::factory()->create();
+        $finance->assignRole('Finance');
+
+        $payment = Payment::create([
+            'invoice_id' => $invoice->id,
+            'amount' => 100000,
+            'paid_at' => now()->toDateString(),
+            'method' => 'transfer',
+            'verification_status' => Payment::STATUS_PENDING,
+        ]);
+
+        app(PaymentService::class)->verify($payment, $finance);
+
+        $subscription->refresh();
+        $this->assertSame(Subscription::STATUS_ACTIVE, $subscription->status);
     }
 
     public function test_invoice_number_uses_prefix_and_six_hex(): void

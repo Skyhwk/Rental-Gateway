@@ -303,6 +303,29 @@ class SubscriptionBillingService
         return false;
     }
 
+    /**
+     * Sinkronkan status langganan dengan tagihan terbuka (mis. past_due → aktif setelah lunas).
+     */
+    public function refreshSubscriptionStatus(Subscription $subscription, Carbon $now = null)
+    {
+        $now = $now ?? now();
+        $subscription->loadMissing('invoices');
+
+        if ($this->shouldSuspendForBilling($subscription, $now)) {
+            if ($subscription->status !== Subscription::STATUS_PAST_DUE) {
+                $subscription->update(['status' => Subscription::STATUS_PAST_DUE]);
+            }
+
+            return $subscription->fresh();
+        }
+
+        if ($subscription->status === Subscription::STATUS_PAST_DUE) {
+            $subscription->update(['status' => Subscription::STATUS_ACTIVE]);
+        }
+
+        return $subscription->fresh();
+    }
+
     public function suspendDeadlineForDueDate(Carbon $dueDate, $graceDays)
     {
         $time = config('billing.suspend_at_time', '09:00');
