@@ -10,6 +10,7 @@ use App\Services\AccessControlService;
 use App\Services\ApplicationService;
 use App\Services\Gateway\GatewayAgentClient;
 use App\Services\Gateway\GatewayInfrastructureService;
+use App\Services\Gateway\GatewayOrphanConfigService;
 use App\Services\Gateway\GatewaySyncService;
 use App\Services\Monitoring\ApplicationHealthCheckService;
 use App\Support\HostnameNormalizer;
@@ -96,8 +97,17 @@ class ApplicationController extends Controller
         $syncState = app(AccessControlService::class)->gatewaySyncState($application);
 
         $gatewayInfra = app(GatewayInfrastructureService::class)->diagnostics();
+        $gatewayHostnameConflicts = app(GatewayOrphanConfigService::class)
+            ->conflictingHostnamesForApplication($application);
 
-        return view('applications.show', compact('application', 'syncLogs', 'accessLogs', 'syncState', 'gatewayInfra'));
+        return view('applications.show', compact(
+            'application',
+            'syncLogs',
+            'accessLogs',
+            'syncState',
+            'gatewayInfra',
+            'gatewayHostnameConflicts'
+        ));
     }
 
     public function edit(Application $application)

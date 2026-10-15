@@ -42,12 +42,18 @@ class GatewayInfrastructureService
         $appsDir = $this->appsConfigPath();
         $appFiles = is_dir($appsDir) ? count(glob($appsDir.'/*.conf') ?: []) : 0;
 
+        $orphanService = app(GatewayOrphanConfigService::class);
+        $orphanIds = $orphanService->orphanApplicationIds();
+        $hostnameConflicts = $orphanService->hostnameConflicts();
+
         return [
             'listener_port' => $port,
             'listener_open' => $open,
             'apps_config_dir' => $appsDir,
             'app_config_count' => $appFiles,
             'ready' => $open && $appFiles > 0,
+            'orphan_config_ids' => $orphanIds,
+            'hostname_conflicts' => array_keys($hostnameConflicts),
         ];
     }
 }

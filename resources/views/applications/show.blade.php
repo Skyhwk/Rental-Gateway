@@ -39,7 +39,27 @@
             @else
                 belum ada include / route tunnel ke gateway.
             @endif
-            Selama tunnel/vhost lama masih mengarah ke <code>{{ $application->internal_host }}:{{ $application->internal_port }}</code>, suspend/aktif dari panel <em>tidak</em> mengubah akses <code>db.ikhtisar.id</code>.
+            Selama tunnel/vhost lama masih mengarah ke <code>{{ $application->internal_host }}:{{ $application->internal_port }}</code>, suspend/aktif dari panel <em>tidak</em> mengubah akses domain publik.
+        </div>
+    @endif
+    @if (! empty($gatewayHostnameConflicts))
+        <div class="alert alert-danger">
+            <strong>Hostname bentrok di Apache gateway.</strong>
+            Beberapa file vhost lama masih memetakan
+            @foreach ($gatewayHostnameConflicts as $host)
+                <code>{{ $host }}</code>@if (! $loop->last), @endif
+            @endforeach
+            ke backend (mode aktif). Apache memakai vhost <em>pertama</em> yang cocok — status suspend di panel bisa sudah benar tetapi situs tetap hidup.
+            Jalankan <code>php artisan gateway:prune-orphans</code> atau klik <em>Sinkronkan</em> setelah membersihkan config yatim
+            @if (! empty($gatewayInfra['orphan_config_ids']))
+                (yatim: app-{{ implode(', app-', $gatewayInfra['orphan_config_ids']) }}).
+            @endif
+        </div>
+    @elseif (! empty($gatewayInfra['orphan_config_ids']))
+        <div class="alert alert-warning">
+            <strong>Config gateway yatim.</strong> File untuk aplikasi yang sudah dihapus masih ada:
+            app-{{ implode(', app-', $gatewayInfra['orphan_config_ids']) }}.
+            Jalankan <code>php artisan gateway:prune-orphans</code> agar suspend/aktif efektif.
         </div>
     @endif
 @endcan

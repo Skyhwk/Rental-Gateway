@@ -104,6 +104,8 @@ class GatewaySyncService
                     'gateway_config_version_id' => $version->id,
                 ]);
 
+                app(GatewayOrphanConfigService::class)->pruneOrphans();
+
                 return $log;
             }
 

@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('monitoring:collect-host-metrics')->everyFiveMinutes();
         $schedule->command('billing:process-cycles')->dailyAt('00:30');
         $schedule->command('billing:enforce-suspensions')->dailyAt(config('billing.suspend_run_at', '09:05'));
+        $schedule->command('gateway:prune-orphans')->dailyAt('09:10');
     }
 
     /**
