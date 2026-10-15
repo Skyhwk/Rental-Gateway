@@ -25,19 +25,21 @@
     </header>
 
     <section class="inv-parties">
-        <div>
+        <div style="text-align: left;">
             <div class="inv-label">Tagihan kepada</div>
             <strong>{{ $invoice->subscription->client->company_name }}</strong>
             @if ($invoice->subscription->client->email)
                 <div class="inv-meta">{{ $invoice->subscription->client->email }}</div>
             @endif
         </div>
-        <div>
+   
+        <div style="text-align: right;">
             <div class="inv-label">Layanan</div>
             <strong>Sewa aplikasi web</strong>
             <div class="inv-meta">{{ $invoice->subscription->application->name }}</div>
             <div class="inv-meta">Periode: {{ $invoice->period_start->format('d/m/Y') }} — {{ $invoice->period_end->format('d/m/Y') }}</div>
         </div>
+   
     </section>
 
     <table class="inv-table">
@@ -86,6 +88,6 @@
     <footer class="inv-footer">
         <p><strong>Dokumen ini bukan faktur PPN.</strong> Diterbitkan otomatis oleh sistem {{ config('billing.issuer.name', 'Rental Gateway Manager') }}.</p>
         <p>Pengelola layanan sewa aplikasi web dalam kapasitas <strong>perorangan / UMKM mikro</strong>, bukan badan hukum PT/CV kecuali dinyatakan lain secara tertulis.</p>
-        <p class="inv-meta">Dicetak {{ now()->format('d/m/Y H:i') }} WIB · Status: {{ App\Models\Invoice::statuses()[$invoice->status] ?? $invoice->status }}</p>
+        <!-- <p class="inv-meta">Dicetak {{ now()->format('d/m/Y H:i') }} WIB · Status: {{ App\Models\Invoice::statuses()[$invoice->status] ?? $invoice->status }}</p> -->
     </footer>
 </div>
