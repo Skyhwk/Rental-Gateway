@@ -21,7 +21,38 @@
             padding: 14mm 16mm;
             background: #fff;
             box-shadow: 0 2px 12px rgba(0,0,0,.12);
+            overflow: hidden;
+            position: relative;
         }
+        .invoice-a4 > :not(.inv-watermark) { position: relative; z-index: 1; }
+        .inv-watermark {
+            left: 50%;
+            pointer-events: none;
+            position: absolute;
+            /* Sama dengan preview/export frontend agar watermark konsisten. */
+            top: 355px;
+            transform: translate(-50%, -50%) rotate(-20deg);
+            transform-origin: center;
+            user-select: none;
+            white-space: nowrap;
+            z-index: 5;
+        }
+        .inv-watermark span {
+            background: rgba(255,255,255,.35);
+            border: 7px double currentColor;
+            border-radius: 10px;
+            display: block;
+            font-family: Arial, sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: 5px;
+            line-height: 1;
+            opacity: .12;
+            padding: 13px 20px 10px 25px;
+            text-align: center;
+        }
+        .inv-watermark-paid { color: #15803d; }
+        .inv-watermark-unpaid { color: #dc2626; }
         .inv-header { display: table; width: 100%; table-layout: fixed; border-bottom: 2px solid #2563eb; padding-bottom: 12px; margin-bottom: 18px; }
         .inv-brand { display: table-cell; width: 58%; vertical-align: top; padding-right: 12px; }
         .inv-brand h1 { font-size: 16pt; margin: 0 0 4px; color: #1e3a8a; }

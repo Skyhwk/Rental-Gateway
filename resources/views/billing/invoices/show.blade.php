@@ -210,13 +210,13 @@
                     <h3 class="card-title font-weight-bold">Tindakan</h3>
                 </div>
                 <div class="card-body pt-0">
-                    @can('create', App\Models\Payment::class)
+                    <!-- @can('create', App\Models\Payment::class)
                         @if ($balanceDue > 0)
                             <a href="{{ route('billing.payments.index', ['record' => $invoice->id]) }}" class="btn btn-success btn-block mb-3">
                                 <i class="fas fa-money-bill-wave mr-1"></i> Catat pembayaran
                             </a>
                         @endif
-                    @endcan
+                    @endcan -->
 
                     <button type="button" class="btn btn-primary btn-block btn-invoice-preview"
                         data-preview-url="{{ route('billing.invoices.pdf', ['invoice' => $invoice, 'embed' => 1], false) }}"
@@ -225,9 +225,9 @@
                         data-invoice-number="{{ $invoice->invoice_number }}">
                         <i class="fas fa-eye mr-1"></i> Lihat / cetak invoice
                     </button>
-                    <a href="{{ route('billing.invoices.download', $invoice) }}" class="btn btn-outline-secondary btn-block">
+                    <!-- <a href="{{ route('billing.invoices.download', $invoice) }}" class="btn btn-outline-secondary btn-block">
                         <i class="fas fa-download mr-1"></i> Unduh invoice
-                    </a>
+                    </a> -->
                     <button type="button" class="btn btn-outline-secondary btn-block" disabled title="Fitur segera tersedia">
                         <i class="fas fa-envelope mr-1"></i> Kirim melalui email
                         <small class="d-block ml-4">Segera tersedia</small>

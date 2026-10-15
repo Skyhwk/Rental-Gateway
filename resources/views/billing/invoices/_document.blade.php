@@ -1,5 +1,15 @@
 {{-- Layout invoice A4 — dipakai cetak/PDF & unduh --}}
 <div class="invoice-a4">
+    @if ($invoice->status === App\Models\Invoice::STATUS_PAID)
+        <div class="inv-watermark inv-watermark-paid" aria-hidden="true">
+            <span>✓ LUNAS</span>
+        </div>
+    @else
+        <div class="inv-watermark inv-watermark-unpaid" aria-hidden="true">
+            <span>BELUM LUNAS</span>
+        </div>
+    @endif
+
     <header class="inv-header">
         <div class="inv-brand">
             <h1>{{ config('billing.issuer.name') }}</h1>

@@ -12,6 +12,44 @@
         font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
         font-size: 11pt;
         color: #1a1a1a;
+        overflow: hidden;
+        position: relative;
+    }
+    .invoice-preview-embed .invoice-a4 > :not(.inv-watermark) {
+        position: relative;
+        z-index: 1;
+    }
+    .invoice-preview-embed .inv-watermark {
+        left: 50%;
+        pointer-events: none;
+        position: absolute;
+        /* Nilai tetap agar posisi tidak berubah saat elemen di-clone oleh html2pdf. */
+        top: 355px;
+        transform: translate(-50%, -50%) rotate(-20deg);
+        transform-origin: center;
+        user-select: none;
+        white-space: nowrap;
+        z-index: 5;
+    }
+    .invoice-preview-embed .inv-watermark span {
+        background: rgba(255,255,255,.35);
+        border: 7px double currentColor;
+        border-radius: 10px;
+        display: block;
+        font-family: Arial, sans-serif;
+        font-size: 42px;
+        font-weight: 800;
+        letter-spacing: 5px;
+        line-height: 1;
+        opacity: .12;
+        padding: 13px 20px 10px 25px;
+        text-align: center;
+    }
+    .invoice-preview-embed .inv-watermark-paid {
+        color: #15803d;
+    }
+    .invoice-preview-embed .inv-watermark-unpaid {
+        color: #dc2626;
     }
     .invoice-preview-embed .inv-header {
         display: table;
