@@ -63,11 +63,15 @@ class InvoiceController extends Controller
         return view('billing.invoices.show', compact('invoice'));
     }
 
-    public function pdf(Invoice $invoice)
+    public function pdf(Request $request, Invoice $invoice)
     {
         $this->authorize('view', $invoice);
 
         $invoice->load(['subscription.client', 'subscription.application', 'items']);
+
+        if ($request->boolean('embed')) {
+            return view('billing.invoices._preview-frame', compact('invoice'));
+        }
 
         return view('billing.invoices.pdf', compact('invoice'));
     }

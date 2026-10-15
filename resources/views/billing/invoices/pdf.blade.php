@@ -22,22 +22,23 @@
             background: #fff;
             box-shadow: 0 2px 12px rgba(0,0,0,.12);
         }
-        .inv-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #2563eb; padding-bottom: 12px; margin-bottom: 18px; }
+        .inv-header { display: table; width: 100%; table-layout: fixed; border-bottom: 2px solid #2563eb; padding-bottom: 12px; margin-bottom: 18px; }
+        .inv-brand { display: table-cell; width: 58%; vertical-align: top; padding-right: 12px; }
         .inv-brand h1 { font-size: 16pt; margin: 0 0 4px; color: #1e3a8a; }
         .inv-subtitle { margin: 0 0 6px; font-size: 9pt; color: #475569; }
-        .inv-title-box { text-align: right; }
+        .inv-title-box { display: table-cell; width: 42%; vertical-align: top; text-align: right; }
         .inv-title { font-size: 18pt; font-weight: 700; letter-spacing: 2px; color: #2563eb; }
         .inv-number { font-size: 12pt; font-weight: 600; margin: 4px 0; }
         .inv-meta { font-size: 9pt; color: #64748b; }
-        .inv-parties { display: flex; gap: 24px; margin-bottom: 20px; }
-        .inv-parties > div { flex: 1; }
+        .inv-parties { display: table; width: 100%; table-layout: fixed; margin-bottom: 20px; }
+        .inv-parties > div { display: table-cell; width: 50%; vertical-align: top; }
         .inv-label { font-size: 8pt; text-transform: uppercase; letter-spacing: .5px; color: #64748b; margin-bottom: 4px; }
         .inv-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
         .inv-table th, .inv-table td { border: 1px solid #cbd5e1; padding: 8px 10px; }
         .inv-table th { background: #f1f5f9; text-align: left; font-size: 9pt; }
         .inv-num { text-align: right; white-space: nowrap; }
-        .inv-summary { display: flex; justify-content: flex-end; margin-bottom: 20px; }
-        .inv-summary table { min-width: 260px; }
+        .inv-summary { display: block; width: 100%; text-align: right; margin-bottom: 20px; }
+        .inv-summary table { min-width: 260px; margin-left: auto; }
         .inv-summary td { padding: 4px 0; }
         .inv-total-row td { border-top: 1px solid #94a3b8; padding-top: 8px; }
         .inv-note-inline { font-size: 8pt; color: #64748b; }
@@ -53,7 +54,7 @@
     </style>
 </head>
 <body>
-    @if (empty($forDownload))
+    @if (empty($forDownload) && ! request()->boolean('embed'))
         <div class="no-print">
             <button type="button" onclick="window.print()">Cetak / Simpan sebagai PDF (A4)</button>
             <a href="{{ route('billing.invoices.show', $invoice) }}">Kembali</a>

@@ -25,21 +25,19 @@
     </header>
 
     <section class="inv-parties">
-        <div style="text-align: left;">
+        <div>
             <div class="inv-label">Tagihan kepada</div>
             <strong>{{ $invoice->subscription->client->company_name }}</strong>
             @if ($invoice->subscription->client->email)
                 <div class="inv-meta">{{ $invoice->subscription->client->email }}</div>
             @endif
         </div>
-   
         <div style="text-align: right;">
             <div class="inv-label">Layanan</div>
             <strong>Sewa aplikasi web</strong>
             <div class="inv-meta">{{ $invoice->subscription->application->name }}</div>
             <div class="inv-meta">Periode: {{ $invoice->period_start->format('d/m/Y') }} — {{ $invoice->period_end->format('d/m/Y') }}</div>
         </div>
-   
     </section>
 
     <table class="inv-table">

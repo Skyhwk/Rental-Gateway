@@ -218,9 +218,13 @@
                         @endif
                     @endcan
 
-                    <a href="{{ route('billing.invoices.pdf', $invoice) }}" class="btn btn-primary btn-block" target="_blank">
+                    <button type="button" class="btn btn-primary btn-block btn-invoice-preview"
+                        data-preview-url="{{ route('billing.invoices.pdf', ['invoice' => $invoice, 'embed' => 1], false) }}"
+                        data-page-url="{{ route('billing.invoices.pdf', $invoice, false) }}"
+                        data-download-url="{{ route('billing.invoices.download', $invoice, false) }}"
+                        data-invoice-number="{{ $invoice->invoice_number }}">
                         <i class="fas fa-eye mr-1"></i> Lihat / cetak invoice
-                    </a>
+                    </button>
                     <a href="{{ route('billing.invoices.download', $invoice) }}" class="btn btn-outline-secondary btn-block">
                         <i class="fas fa-download mr-1"></i> Unduh invoice
                     </a>
@@ -240,5 +244,7 @@
             </div>
         </div>
     </div>
+
+    @include('billing.invoices._preview-modal')
 </div>
 @endsection

@@ -80,7 +80,13 @@
                         <td>{{ $statuses[$inv->status] ?? $inv->status }}</td>
                         <td class="text-nowrap">
                             <a href="{{ route('billing.invoices.show', $inv) }}" class="btn btn-xs btn-info">Detail</a>
-                            <a href="{{ route('billing.invoices.pdf', $inv) }}" class="btn btn-xs btn-default" target="_blank">PDF</a>
+                            <button type="button" class="btn btn-xs btn-default btn-invoice-preview"
+                                data-preview-url="{{ route('billing.invoices.pdf', ['invoice' => $inv, 'embed' => 1], false) }}"
+                                data-page-url="{{ route('billing.invoices.pdf', $inv, false) }}"
+                                data-download-url="{{ route('billing.invoices.download', $inv, false) }}"
+                                data-invoice-number="{{ $inv->invoice_number }}">
+                                <i class="fas fa-eye mr-1"></i> Lihat
+                            </button>
                         </td>
                     </tr>
                 @empty
@@ -91,4 +97,6 @@
         {{ $invoices->links() }}
     </div>
 </div>
+
+@include('billing.invoices._preview-modal')
 @endsection
